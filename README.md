@@ -1,74 +1,73 @@
-# Advanced Video Downloader
+# Video Downloader Application
 
 ## Overview
-A modular, object-oriented Python GUI application for downloading videos from multiple websites.
-
-## Project Structure
-```
-video_downloader/
-│
-├── src/
-│   ├── core/
-│   │   ├── downloader.py      # Base downloader abstract class
-│   │   └── platforms/
-│   │       ├── youtube.py     # YouTube-specific downloader
-│   │
-│   ├── ui/
-│   │   └── video_downloader_gui.py  # Tkinter GUI
-│   │
-│   └── main.py                # Application entry point
-│
-├── requirements.txt
-└── README.md
-```
+A modern, cross-platform video downloader application with a sleek, bootstrap-styled GUI.
 
 ## Features
-- Modular, extensible architecture
-- Download videos from YouTube
-- Select video format and resolution
-- Modern, responsive GUI
-- Robust error handling
-- Logging support
+- Download videos from multiple platforms
+- Customizable download formats and resolutions
+- Modern, responsive UI
+- Error handling and logging
 
 ## Prerequisites
-- Python 3.7+
-- pytube
-- yt-dlp
+- Python 3.13
+- Homebrew (recommended for macOS)
 
 ## Installation
-1. Clone the repository
-2. Create a virtual environment:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
-   ```
-3. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
 
-## Usage
-Run the application:
+1. Clone the repository:
 ```bash
-python -m src.main
+git clone https://github.com/yourusername/video_downloader.git
+cd video_downloader
 ```
 
-1. Enter a video URL
-2. Select download format and resolution
-3. Choose a download path
-4. Click "Download Video"
+2. Create a virtual environment:
+```bash
+python3.13 -m venv venv
+source venv/bin/activate
+```
 
-## Extensibility
-- Easy to add new platform-specific downloaders
-- Separate UI and core logic for maintainability
+3. Install the application:
+```bash
+pip install -e .
+```
 
-## Logging
+## Running the Application
+
+### Option 1: Using the Run Script (Recommended)
+```bash
+./run_venv.sh
+```
+
+### Option 2: Manual Activation
+```bash
+# Activate virtual environment
+source venv/bin/activate
+
+# Run the application
+python -m video_downloader.src.main
+
+# Deactivate when done
+deactivate
+```
+
+## Development
+
+### Running Tests
+```bash
+python test_imports.py
+```
+
+### Logging
 Application logs are saved to `video_downloader.log`
 
-## Future Improvements
-- Support for more video platforms
-- Advanced download settings
-- Batch download functionality
+## Troubleshooting
+- Ensure you're using Python 3.13
+- Check `video_downloader.log` for detailed error messages
+- Verify all dependencies are installed in the virtual environment
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss proposed changes.
 
 ## License
-MIT License
+[MIT](https://choosealicense.com/licenses/mit/)

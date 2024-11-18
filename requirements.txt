@@ -1,3 +1,6 @@
 pytube
 yt-dlp
 typing
+ttkbootstrap
+setuptools
+importlib-metadata

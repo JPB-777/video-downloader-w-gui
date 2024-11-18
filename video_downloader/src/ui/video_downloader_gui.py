@@ -1,26 +1,28 @@
 import os
-import tkinter as tk
-from tkinter import ttk, messagebox, filedialog
 import threading
+
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
+from tkinter import messagebox, filedialog
 
 from ..core.platforms.youtube import YouTubeDownloader
 
 class VideoDownloaderGUI:
     """
-    Tkinter-based GUI for the video downloader application.
-    Handles user interactions and delegates download tasks.
+    Modern, bootstrap-styled Tkinter GUI for video downloading.
     """
-    def __init__(self, master=None):
+    def __init__(self, master=None, theme='darkly'):
         """
-        Initialize the GUI with a Tkinter root window.
+        Initialize the GUI with a modern bootstrap theme.
         
         Args:
-            master (tk.Tk, optional): Root window. Creates a new one if not provided.
+            master (ttk.Window, optional): Root window
+            theme (str, optional): Bootstrap theme name
         """
-        # Create root window if not provided
-        self.master = master or tk.Tk()
+        # Create root window with bootstrap styling
+        self.master = master or ttk.Window(themename=theme)
         self.master.title("Advanced Video Downloader")
-        self.master.geometry("600x500")
+        self.master.geometry("600x600")
 
         # Initialize downloader
         self.downloader = YouTubeDownloader()
@@ -30,81 +32,106 @@ class VideoDownloaderGUI:
 
     def _create_widgets(self):
         """
-        Create and layout all UI widgets for the application.
-        Uses modern ttk widgets and grid/pack layout managers.
+        Create modern, bootstrap-styled UI components.
         """
-        # URL Input Frame
-        url_frame = ttk.Frame(self.master)
-        url_frame.pack(padx=20, pady=10, fill='x')
+        # Container for all widgets
+        container = ttk.Frame(self.master, padding=20)
+        container.pack(fill=BOTH, expand=YES)
+
+        # Title
+        title_label = ttk.Label(
+            container, 
+            text="Video Downloader", 
+            font=('-size', 16, '-weight', 'bold')
+        )
+        title_label.pack(pady=(0, 20))
+
+        # URL Input
+        url_frame = ttk.Frame(container)
+        url_frame.pack(fill=X, pady=10)
         
-        ttk.Label(url_frame, text="Video URL:").pack(side='left')
+        ttk.Label(url_frame, text="Video URL:").pack(side=LEFT)
         self.url_entry = ttk.Entry(url_frame, width=50)
-        self.url_entry.pack(side='left', expand=True, fill='x', padx=10)
+        self.url_entry.pack(side=LEFT, expand=YES, fill=X, padx=10)
 
         # Download Options Frame
-        options_frame = ttk.LabelFrame(self.master, text="Download Options")
-        options_frame.pack(padx=20, pady=10, fill='x')
+        options_frame = ttk.LabelFrame(container, text="Download Options", padding=10)
+        options_frame.pack(fill=X, pady=10)
 
         # Format Selection
-        ttk.Label(options_frame, text="Format:").grid(row=0, column=0, sticky='w', padx=5, pady=5)
-        self.format_var = tk.StringVar(value="mp4")
+        format_frame = ttk.Frame(options_frame)
+        format_frame.pack(fill=X, pady=5)
+        ttk.Label(format_frame, text="Format:").pack(side=LEFT)
+        self.format_var = ttk.StringVar(value="mp4")
         formats = ["mp4", "webm", "avi"]
         self.format_dropdown = ttk.Combobox(
-            options_frame, 
+            format_frame, 
             textvariable=self.format_var, 
             values=formats, 
-            state="readonly"
+            state="readonly",
+            width=20
         )
-        self.format_dropdown.grid(row=0, column=1, padx=5, pady=5)
+        self.format_dropdown.pack(side=RIGHT)
 
         # Resolution Selection
-        ttk.Label(options_frame, text="Resolution:").grid(row=1, column=0, sticky='w', padx=5, pady=5)
-        self.resolution_var = tk.StringVar(value="720p")
+        resolution_frame = ttk.Frame(options_frame)
+        resolution_frame.pack(fill=X, pady=5)
+        ttk.Label(resolution_frame, text="Resolution:").pack(side=LEFT)
+        self.resolution_var = ttk.StringVar(value="720p")
         resolutions = ["360p", "480p", "720p", "1080p"]
         self.resolution_dropdown = ttk.Combobox(
-            options_frame, 
+            resolution_frame, 
             textvariable=self.resolution_var, 
             values=resolutions, 
-            state="readonly"
+            state="readonly",
+            width=20
         )
-        self.resolution_dropdown.grid(row=1, column=1, padx=5, pady=5)
+        self.resolution_dropdown.pack(side=RIGHT)
 
-        # Download Path Frame
-        path_frame = ttk.Frame(self.master)
-        path_frame.pack(padx=20, pady=10, fill='x')
+        # Download Path
+        path_frame = ttk.Frame(container)
+        path_frame.pack(fill=X, pady=10)
         
-        ttk.Label(path_frame, text="Download Path:").pack(side='left')
+        ttk.Label(path_frame, text="Download Path:").pack(side=LEFT)
         self.path_entry = ttk.Entry(path_frame, width=40)
-        self.path_entry.pack(side='left', expand=True, fill='x', padx=10)
+        self.path_entry.pack(side=LEFT, expand=YES, fill=X, padx=10)
         
-        browse_btn = ttk.Button(path_frame, text="Browse", command=self._browse_directory)
-        browse_btn.pack(side='right')
+        browse_btn = ttk.Button(
+            path_frame, 
+            text="Browse", 
+            command=self._browse_directory,
+            bootstyle=SUCCESS
+        )
+        browse_btn.pack(side=RIGHT)
 
         # Progress Bar
-        self.progress_var = tk.DoubleVar()
+        self.progress_var = ttk.DoubleVar()
         self.progress_bar = ttk.Progressbar(
-            self.master, 
+            container, 
             variable=self.progress_var, 
             maximum=100, 
             length=500, 
-            mode='determinate'
+            mode='determinate',
+            bootstyle=SUCCESS
         )
-        self.progress_bar.pack(padx=20, pady=10)
+        self.progress_bar.pack(pady=10)
 
         # Download Button
         download_btn = ttk.Button(
-            self.master, 
+            container, 
             text="Download Video", 
-            command=self._start_download
+            command=self._start_download,
+            bootstyle=(PRIMARY, OUTLINE)
         )
         download_btn.pack(pady=10)
 
         # Status Display
-        self.status_var = tk.StringVar()
+        self.status_var = ttk.StringVar()
         status_label = ttk.Label(
-            self.master, 
+            container, 
             textvariable=self.status_var, 
-            wraplength=500
+            wraplength=500,
+            bootstyle=INFO
         )
         status_label.pack(pady=10)
 
@@ -114,13 +141,12 @@ class VideoDownloaderGUI:
         """
         directory = filedialog.askdirectory()
         if directory:
-            self.path_entry.delete(0, tk.END)
+            self.path_entry.delete(0, END)
             self.path_entry.insert(0, directory)
 
     def _start_download(self):
         """
         Validate inputs and start download in a separate thread.
-        Prevents UI from freezing during download.
         """
         # Gather input values
         url = self.url_entry.get()
@@ -147,13 +173,6 @@ class VideoDownloaderGUI:
     def _download_video(self, url, download_path, video_format, resolution):
         """
         Perform video download using the core downloader.
-        Handles UI updates and error messages.
-        
-        Args:
-            url (str): Video URL
-            download_path (str): Download directory
-            video_format (str): Desired video format
-            resolution (str): Desired video resolution
         """
         try:
             # Perform download
@@ -174,9 +193,6 @@ class VideoDownloaderGUI:
     def _download_complete(self, title):
         """
         Display download completion message and reset UI.
-        
-        Args:
-            title (str): Title of the downloaded video
         """
         def _update_ui():
             self.progress_var.set(100)
@@ -184,7 +200,7 @@ class VideoDownloaderGUI:
             messagebox.showinfo("Success", f"Video '{title}' downloaded successfully!")
             
             # Clear input fields
-            self.url_entry.delete(0, tk.END)
+            self.url_entry.delete(0, END)
         
         return _update_ui
 
