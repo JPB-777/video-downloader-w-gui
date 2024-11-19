@@ -21,7 +21,7 @@ echo "Installed packages:"
 pip list
 
 # Run the application with verbose output
-PYTHONPATH=. python3 -m src.main
+PYTHONPATH=. python3 -m video_downloader.src.main
 
 # Deactivate the virtual environment
 deactivate

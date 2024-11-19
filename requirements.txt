@@ -1,6 +1,10 @@
-pytube
-yt-dlp
+pytube>=15.0.0
+yt-dlp>=2023.11.16
+ttkbootstrap>=1.10.1
+concurrent-futures>=3.0.5
+importlib-metadata>=7.0.0
+setuptools>=69.0.2
+# SQLite3 is included in Python standard library
 typing
-ttkbootstrap
-setuptools
-importlib-metadata
+python-dateutil>=2.8.2  # For datetime parsing
+schedule>=1.2.1  # For scheduled downloads

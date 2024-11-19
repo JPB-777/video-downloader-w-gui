@@ -34,13 +34,13 @@ def main():
         except (ImportError, ModuleNotFoundError):
             logger.debug("Could not determine ttkbootstrap version")
         
-        # Import the GUI using an absolute import
-        from video_downloader.src.ui.video_downloader_gui import VideoDownloaderGUI
+        # Import the GUI
+        from .ui.video_downloader_gui import VideoDownloaderGUI
         logger.info("VideoDownloaderGUI imported successfully")
         
-        # Initialize and run the application
+        # Initialize and run the application with darkly theme
         logger.info("Initializing Video Downloader Application")
-        app = VideoDownloaderGUI()
+        app = VideoDownloaderGUI(theme='darkly')  # Explicitly set initial theme
         app.run()
     
     except ImportError as e:
@@ -52,7 +52,7 @@ def main():
         
         # Try to provide more context about the import failure
         import importlib
-        for module in ['ttkbootstrap', 'video_downloader.src.ui.video_downloader_gui']:
+        for module in ['ttkbootstrap', '.ui.video_downloader_gui']:
             try:
                 importlib.import_module(module)
             except ImportError as import_err:
