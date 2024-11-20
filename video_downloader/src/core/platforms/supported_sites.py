@@ -47,12 +47,6 @@ SUPPORTED_SITES = [
         "twitch.tv",
         "Live streaming and gaming content platform",
         ["mp4"]
-    ),
-    VideoSite(
-        "Facebook Video",
-        "facebook.com",
-        "Social media video content",
-        ["mp4"]
     )
 ]
 
